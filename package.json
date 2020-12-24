@@ -1,0 +1,47 @@
+{
+    "name": "@kijuub/timed-retry-queue",
+    "version": "1.0.0",
+    "description": "A retry timed task queue where the next task gets executed when the previous one is completed or fails a limit number of times.",
+    "main": "lib/index.js",
+    "types": "lib/index.d.ts",
+    "scripts": {
+        "test": "jest",
+        "test:coverage": "jest --coverage",
+        "coverage-badge": "node_modules/lcov-badge/lcov-badge coverage/lcov.info -o badges/coverage.svg",
+        "build": "tsc",
+        "prepublish": "tsc && yarn test && yarn coverage-badge",
+        "prepare": "npm run build",
+        "start:dev": "tsc -w"
+    },
+    "keywords": [
+        "Timed Retry Queue",
+        "Timed Queue",
+        "Queue",
+        "Task Queue",
+        "Dependency Queue",
+        "Retry Queue",
+        "Time Retry Queue"
+    ],
+    "author": "Bostjan Cigan <bostjan.cigan@gmail.com>",
+    "contributors": [
+        {
+            "name": "Bostjan Cigan <bostjan.cigan@gmail.com>"
+        }
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/bostjan-cigan/timed-retry-queue.git"
+    },
+    "license": "Apache-2.0",
+    "dependencies": {
+        "timestring": "^6.0.0"
+    },
+    "devDependencies": {
+        "@types/jest": "^26.0.14",
+        "@types/mocha": "^8.0.3",
+        "jest": "^26.4.2",
+        "lcov-badge": "^1.0.4",
+        "ts-jest": "^26.4.0",
+        "typescript": "^3.9.5"
+    }
+}

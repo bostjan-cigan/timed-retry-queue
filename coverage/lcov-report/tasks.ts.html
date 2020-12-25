@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>29/29</span>
+                <span class='fraction'>31/31</span>
             </div>
         
             
@@ -39,14 +39,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>9/9</span>
+                <span class='fraction'>11/11</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>28/28</span>
+                <span class='fraction'>30/30</span>
             </div>
         
             
@@ -109,7 +109,13 @@
 <a name='L50'></a><a href='#L50'>50</a>
 <a name='L51'></a><a href='#L51'>51</a>
 <a name='L52'></a><a href='#L52'>52</a>
-<a name='L53'></a><a href='#L53'>53</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L53'></a><a href='#L53'>53</a>
+<a name='L54'></a><a href='#L54'>54</a>
+<a name='L55'></a><a href='#L55'>55</a>
+<a name='L56'></a><a href='#L56'>56</a>
+<a name='L57'></a><a href='#L57'>57</a>
+<a name='L58'></a><a href='#L58'>58</a>
+<a name='L59'></a><a href='#L59'>59</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -123,8 +129,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">10x</span>
-<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
@@ -139,13 +144,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">10x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
@@ -157,7 +155,21 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -169,48 +181,54 @@
 &nbsp;
 class TimedRetryQueueTasks implements ITimedRetryQueueTasks {
     private queue: TimedRetryQueueStorage = {}
-    private queueSize: number = 0
-    private current: number = 1
+    private start: number = -1
+    private end: number = -1
 &nbsp;
     constructor() {}
 &nbsp;
     public add( task: TimedRetryQueueTask ): void {
-        const size = ++this.queueSize
-        this.queue[ size ] = task
+        this.enqueue( task )
     }
 &nbsp;
     public addMany( tasks: Array&lt;TimedRetryQueueTask&gt; ): void {
         tasks.forEach( ( task ) =&gt; {
-            this.add( task )
+            this.enqueue( task )
         } )
     }
 &nbsp;
     public isEmpty(): boolean {
-        return this.queueSize === 0
+        return this.size() === 0
     }
 &nbsp;
     public getNext(): TimedRetryQueueTask | undefined {
-        if ( this.queueSize &gt; 0 ) {
-            const task = this.queue[ this.current ]
-            delete this.queue[ this.current ]
-            this.queueSize--
-            ++this.current
-            return task
-        }
-&nbsp;
+        return this.dequeue()
     }
 &nbsp;
     public empty(): void {
         for ( let property in this.queue ) {
             delete this.queue[ property ]
         }
-        this.queueSize = 0
-        this.current = 1
+        this.start = -1
+        this.end = -1
     }
 &nbsp;
     public size(): number {
-        return this.queueSize
+        return this.end - this.start
     }
+&nbsp;
+    private enqueue( task: TimedRetryQueueTask ): void {
+        this.queue[ ++this.end ] = task        
+    }
+&nbsp;
+    private dequeue(): TimedRetryQueueTask | undefined {
+        if ( this.size() &gt; 0 ) {
+            const next = this.queue[ ++this.start ]
+            delete this.queue[ this.start ]
+            return next
+        }
+        return undefined
+    }
+&nbsp;
 }
 &nbsp;
 export default TimedRetryQueueTasks</pre></td></tr></table></pre>
@@ -220,7 +238,7 @@ export default TimedRetryQueueTasks</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Thu Dec 24 2020 18:51:56 GMT+0100 (Central European Standard Time)
+                at Fri Dec 25 2020 01:07:09 GMT+0100 (Central European Standard Time)
             </div>
         </div>
         <script src="prettify.js"></script>

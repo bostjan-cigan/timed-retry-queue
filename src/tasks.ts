@@ -6,48 +6,54 @@ import {
 
 class TimedRetryQueueTasks implements ITimedRetryQueueTasks {
     private queue: TimedRetryQueueStorage = {}
-    private queueSize: number = 0
-    private current: number = 1
+    private start: number = -1
+    private end: number = -1
 
     constructor() {}
 
     public add( task: TimedRetryQueueTask ): void {
-        const size = ++this.queueSize
-        this.queue[ size ] = task
+        this.enqueue( task )
     }
 
     public addMany( tasks: Array<TimedRetryQueueTask> ): void {
         tasks.forEach( ( task ) => {
-            this.add( task )
+            this.enqueue( task )
         } )
     }
 
     public isEmpty(): boolean {
-        return this.queueSize === 0
+        return this.size() === 0
     }
 
-    public getNext(): TimedRetryQueueTask | undefined {
-        if ( this.queueSize > 0 ) {
-            const task = this.queue[ this.current ]
-            delete this.queue[ this.current ]
-            this.queueSize--
-            ++this.current
-            return task
-        }
-
+    public getNextTask(): TimedRetryQueueTask | undefined {
+        return this.dequeue()
     }
 
     public empty(): void {
         for ( let property in this.queue ) {
             delete this.queue[ property ]
         }
-        this.queueSize = 0
-        this.current = 1
+        this.start = -1
+        this.end = -1
     }
 
     public size(): number {
-        return this.queueSize
+        return this.end - this.start
     }
+
+    private enqueue( task: TimedRetryQueueTask ): void {
+        this.queue[ ++this.end ] = task        
+    }
+
+    private dequeue(): TimedRetryQueueTask | undefined {
+        if ( this.size() > 0 ) {
+            const next = this.queue[ ++this.start ]
+            delete this.queue[ this.start ]
+            return next
+        }
+        return undefined
+    }
+
 }
 
 export default TimedRetryQueueTasks

@@ -19,8 +19,8 @@ declare class TimedRetryQueue {
     /**
      * Tries to execute task within a timeout limit.
      *
-     * @param task	  Task that will be executed.
-     * @param timeout Limited number of times of execution (fails).
+     * @param task	  			  Task that will be executed.
+     * @param firstExecution	  Boolean if task is executed for the first time.
      */
     private executeTry;
     /**

@@ -9,6 +9,7 @@ export declare type TimedRetryQueueTask = {
 export declare type TimedRetryQueueTaskParameters = {
     retries?: number;
     interval?: String;
+    extra?: TimedRetryQueueExtraParameters;
 };
 export declare enum TaskStatus {
     FAIL = "FAIL",
@@ -18,10 +19,13 @@ export interface ITimedRetryQueueTasks {
     add(task: TimedRetryQueueTask): void;
     addMany(tasks: Array<TimedRetryQueueTask>): void;
     isEmpty(): boolean;
-    getNext(): TimedRetryQueueTask | undefined;
+    getNextTask(): TimedRetryQueueTask | undefined;
     empty(): void;
     size(): number;
 }
 export interface TimedRetryQueueStorage {
     [key: number]: TimedRetryQueueTask;
+}
+export interface TimedRetryQueueExtraParameters {
+    [key: string]: any;
 }

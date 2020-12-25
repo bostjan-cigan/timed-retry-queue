@@ -1,14 +1,16 @@
 import { TimedRetryQueueTask, ITimedRetryQueueTasks } from './index';
 declare class TimedRetryQueueTasks implements ITimedRetryQueueTasks {
     private queue;
-    private queueSize;
-    private current;
+    private start;
+    private end;
     constructor();
     add(task: TimedRetryQueueTask): void;
     addMany(tasks: Array<TimedRetryQueueTask>): void;
     isEmpty(): boolean;
-    getNext(): TimedRetryQueueTask | undefined;
+    getNextTask(): TimedRetryQueueTask | undefined;
     empty(): void;
     size(): number;
+    private enqueue;
+    private dequeue;
 }
 export default TimedRetryQueueTasks;

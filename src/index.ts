@@ -5,7 +5,6 @@ import {
     TimedRetryQueueOptions,
     TimedRetryQueueTask,
     TimedRetryQueueTaskParameters,
-    TaskStatus,
     ITimedRetryQueueTasks,
     TimedRetryQueueStorage
 } from './types'

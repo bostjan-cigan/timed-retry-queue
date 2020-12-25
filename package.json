@@ -1,6 +1,6 @@
 {
     "name": "@kijuub/timed-retry-queue",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "description": "A retry timed task queue where the next task gets executed when the previous one is completed or fails a limit number of times.",
     "main": "lib/index.js",
     "types": "lib/index.d.ts",
@@ -32,7 +32,7 @@
         "type": "git",
         "url": "https://github.com/bostjan-cigan/timed-retry-queue.git"
     },
-    "license": "Apache-2.0",
+    "license": "MIT",
     "dependencies": {
         "timestring": "^6.0.0"
     },

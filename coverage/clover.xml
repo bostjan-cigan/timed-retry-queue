@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1608832316759" clover="3.2.0">
-  <project timestamp="1608832316759" name="All files">
-    <metrics statements="78" coveredstatements="78" conditionals="33" coveredconditionals="33" methods="20" coveredmethods="20" elements="131" coveredelements="131" complexity="0" loc="78" ncloc="78" packages="1" files="4" classes="4"/>
+<coverage generated="1608854829858" clover="3.2.0">
+  <project timestamp="1608854829858" name="All files">
+    <metrics statements="80" coveredstatements="80" conditionals="37" coveredconditionals="37" methods="22" coveredmethods="22" elements="139" coveredelements="139" complexity="0" loc="80" ncloc="80" packages="1" files="4" classes="4"/>
     <file name="index.ts" path="/Users/bostjan/Projects/TimedQueue/src/index.ts">
       <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       <line num="1" count="2" type="stmt"/>
       <line num="2" count="2" type="stmt"/>
+      <line num="13" count="2" type="stmt"/>
       <line num="14" count="2" type="stmt"/>
-      <line num="15" count="2" type="stmt"/>
     </file>
     <file name="queue.ts" path="/Users/bostjan/Projects/TimedQueue/src/queue.ts">
-      <metrics statements="43" coveredstatements="43" conditionals="29" coveredconditionals="29" methods="10" coveredmethods="10"/>
+      <metrics statements="43" coveredstatements="43" conditionals="33" coveredconditionals="33" methods="10" coveredmethods="10"/>
       <line num="1" count="2" type="stmt"/>
       <line num="3" count="2" type="stmt"/>
       <line num="10" count="2" type="stmt"/>
@@ -39,14 +39,14 @@
       <line num="67" count="2" type="stmt"/>
       <line num="68" count="5" type="cond" truecount="2" falsecount="0"/>
       <line num="69" count="5" type="stmt"/>
-      <line num="71" count="5" type="cond" truecount="6" falsecount="0"/>
-      <line num="72" count="2" type="stmt"/>
+      <line num="71" count="5" type="cond" truecount="8" falsecount="0"/>
+      <line num="72" count="1" type="stmt"/>
       <line num="75" count="5" type="stmt"/>
       <line num="76" count="5" type="stmt"/>
       <line num="78" count="5" type="stmt"/>
       <line num="79" count="3" type="stmt"/>
       <line num="81" count="2" type="stmt"/>
-      <line num="93" count="2" type="stmt"/>
+      <line num="93" count="8" type="cond" truecount="2" falsecount="0"/>
       <line num="94" count="7" type="cond" truecount="2" falsecount="0"/>
       <line num="95" count="5" type="stmt"/>
       <line num="96" count="8" type="cond" truecount="2" falsecount="0"/>
@@ -56,41 +56,43 @@
       <line num="104" count="2" type="stmt"/>
     </file>
     <file name="tasks.ts" path="/Users/bostjan/Projects/TimedQueue/src/tasks.ts">
-      <metrics statements="28" coveredstatements="28" conditionals="2" coveredconditionals="2" methods="9" coveredmethods="9"/>
+      <metrics statements="30" coveredstatements="30" conditionals="2" coveredconditionals="2" methods="11" coveredmethods="11"/>
       <line num="7" count="2" type="stmt"/>
       <line num="8" count="10" type="stmt"/>
       <line num="9" count="10" type="stmt"/>
       <line num="10" count="10" type="stmt"/>
       <line num="14" count="2" type="stmt"/>
-      <line num="15" count="10" type="stmt"/>
-      <line num="16" count="10" type="stmt"/>
+      <line num="15" count="6" type="stmt"/>
+      <line num="18" count="2" type="stmt"/>
       <line num="19" count="2" type="stmt"/>
-      <line num="20" count="2" type="stmt"/>
-      <line num="21" count="4" type="stmt"/>
+      <line num="20" count="4" type="stmt"/>
+      <line num="24" count="2" type="stmt"/>
       <line num="25" count="2" type="stmt"/>
-      <line num="26" count="2" type="stmt"/>
-      <line num="29" count="2" type="stmt"/>
-      <line num="30" count="10" type="cond" truecount="2" falsecount="0"/>
-      <line num="31" count="5" type="stmt"/>
-      <line num="32" count="5" type="stmt"/>
-      <line num="33" count="5" type="stmt"/>
-      <line num="34" count="5" type="stmt"/>
-      <line num="35" count="5" type="stmt"/>
+      <line num="28" count="2" type="stmt"/>
+      <line num="29" count="10" type="stmt"/>
+      <line num="32" count="2" type="stmt"/>
+      <line num="33" count="4" type="stmt"/>
+      <line num="34" count="1" type="stmt"/>
+      <line num="36" count="4" type="stmt"/>
+      <line num="37" count="4" type="stmt"/>
       <line num="40" count="2" type="stmt"/>
-      <line num="41" count="4" type="stmt"/>
-      <line num="42" count="1" type="stmt"/>
-      <line num="44" count="4" type="stmt"/>
-      <line num="45" count="4" type="stmt"/>
+      <line num="41" count="17" type="stmt"/>
+      <line num="44" count="2" type="stmt"/>
+      <line num="45" count="10" type="stmt"/>
       <line num="48" count="2" type="stmt"/>
-      <line num="49" count="5" type="stmt"/>
-      <line num="51" count="2" type="stmt"/>
-      <line num="53" count="2" type="stmt"/>
+      <line num="49" count="10" type="cond" truecount="2" falsecount="0"/>
+      <line num="50" count="5" type="stmt"/>
+      <line num="51" count="5" type="stmt"/>
+      <line num="52" count="5" type="stmt"/>
+      <line num="54" count="5" type="stmt"/>
+      <line num="57" count="2" type="stmt"/>
+      <line num="59" count="2" type="stmt"/>
     </file>
     <file name="types.ts" path="/Users/bostjan/Projects/TimedQueue/src/types.ts">
       <metrics statements="3" coveredstatements="3" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
-      <line num="16" count="2" type="cond" truecount="2" falsecount="0"/>
-      <line num="17" count="2" type="stmt"/>
+      <line num="17" count="2" type="cond" truecount="2" falsecount="0"/>
       <line num="18" count="2" type="stmt"/>
+      <line num="19" count="2" type="stmt"/>
     </file>
   </project>
 </coverage>

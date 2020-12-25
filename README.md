@@ -7,9 +7,13 @@
 ![Coverage](badges/coverage.svg)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-This is an easy utility for processing tasks in a sequential order with a number of retries (time based) before failing or returning the result. The default queue implementation is FIFO based.
+This is an easy utility for processing tasks in a sequential order with a number of retries (time based) before failing or returning the result.
 
-You can also use the following extension(s) to change how the queue elements behave or write your own queue implementation.
+It can also be used as a regular queue if you do not provide retry information or reset the default settings.
+
+The default queue implementation is FIFO based.
+
+You can also use the following extension(s) to change how the queue behaves or write your own queue implementation.
 
 * [Timed Retry Dependency Queue](https://npmjs.com/@kijuub/timed-retry-dependency-queue) - A dependency queue implementation where tasks are executed in the order of their specified dependencies
 

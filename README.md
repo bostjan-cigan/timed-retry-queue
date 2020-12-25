@@ -22,7 +22,7 @@ npm install @kijuub/timed-retry-queue
 
 By default the queue tasks are processed in FIFO order.
 
-First you need to create the *TimedRetryQueue* object. There are some optional parameters that you can override while creating the constructor:
+First you need to create the `TimedRetryQueue` object. There are some optional parameters that you can override while creating the constructor:
 
 ```javascript
 import { TimedRetryQueue } from @kijuub/timed-retry-queue
@@ -33,11 +33,11 @@ const options: TimedRetryQueueOptions = {
 const executer = new TimedRetryQueue( options )
 ```
 
-The parameter *default_retries* overrides the default number of retries for a failed task that does not have the retries options specified. By default this is set to 1.
+The parameter `default_retries` overrides the default number of retries for a failed task that does not have the retries options specified. By default this is set to 1.
 
-### Adding retrying tasks
+### Adding tasks
 
-To add tasks to the process method, you need to create the *TimedRetryQueueTasks* object.
+To add tasks to the process method, you need to create the `TimedRetryQueueTasks` object. You can add both retry tasks or tasks that do not need to be retried.
 
 ```javascript
 import { TimedRetryQueue, TimedRetryQueueTasks } from @kijuub/timed-retry-queue
@@ -76,7 +76,7 @@ queue.addMany(
 const process = await executer.process( queue )
 ```
 
-The *process* method on the *executer* accepts the queue and processes the queue in FIFO order.
+The `process` method on the `executer` accepts the queue and processes the queue and returns the results in an array.
 
 When adding a task the following options are supported:
 
@@ -91,19 +91,19 @@ When adding a task the following options are supported:
 }
 ```
 
-The *task* parameter is the function that needs to be executed, the *arguments* parameters are the arguments that are used for the function call.
+The `task` parameter is the function that needs to be executed, the `arguments` parameters are the arguments that are used for the function call.
 
-The *parameters* object allows you to define how many *retries* to do before failing, the *interval* sets how much time between retries. This options supports timestring based values (e.g. 1s, 2 seconds, 2m etc.).
+The `parameters` object allows you to define how many `retries` to do before failing, the `interval` sets how much time between retries. This options supports timestring based values (e.g. 1s, 2 seconds, 2m etc.).
 
 **NOTE:** The task is deemed failed if an error is thrown.
 
-The *TimedRetryQueueTasks* also supports the following methods:
+The `TimedRetryQueueTasks` also supports the following methods:
 
 ```javascript
 add( task: TimedRetryQueueTask ): void,
 addMany( tasks: Array<TimedRetryQueueTask> ): void
 isEmpty(): boolean
-getNext(): TimedRetryQueueTask | undefined
+getNextTask(): TimedRetryQueueTask | undefined
 empty(): void,
 size(): number
 ```
@@ -117,48 +117,22 @@ They respectively:
 * Empty the task queue
 * Return the current size of the task queue
 
-### Adding non-retrying tasks
-
-You can also execute tasks that do not need to be repeated by not passing any parameters (this is only default behaviour if you do not override the default retries value):
-
-```javascript
-import { TimedRetryQueue, TimedRetryQueueTask } from @kijuub/timed-retry-queue
-
-const taskOne = () => {
-	return true
-}
-
-const taskTwo = () => {
-	return false
-}
-
-const tasks: Array<TimedRetryQueueTask> = [
-        {
-            task: taskOne
-        },
-        {
-            task: taskTwo
-    }
-]
-
-const timedQueue = new TimedRetryQueue( tasks )
-const results = await timedQueue.process()
-```
-
 ### Custom queue
 
-By default the queue is processed in a FIFO order. If you would like to implement it differently you can implement your own *TimedRetryQueueTasks* by implementing the exported *ITimedRetryQueueTasks* interface.
+By default the queue is processed in a FIFO order. If you would like to implement it differently you can implement your own `TimedRetryQueueTasks` class by implementing the exported `ITimedRetryQueueTasks` interface.
 
 ```javascript
 interface ITimedRetryQueueTasks {
 	add( task: TimedRetryQueueTask ): void,
 	addMany( tasks: Array<TimedRetryQueueTask> ): void
 	isEmpty(): boolean
-	getNext(): TimedRetryQueueTask | undefined
+	getNextTask(): TimedRetryQueueTask | undefined
 	empty(): void,
 	size(): number
 }
 ```
+
+When implementing custom queues you have the ability to add extra parameters to the `TimedRetryQueueTask`. The parameter for that is `extra` which is a key (string) value store.
 
 ## Contributions
 

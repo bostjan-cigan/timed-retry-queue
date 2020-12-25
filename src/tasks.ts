@@ -4,7 +4,7 @@ import {
     TimedRetryQueueStorage
 } from './index'
 
-class TimedRetryQueueTasks implements ITimedRetryQueueTasks {
+class Queue implements ITimedRetryQueueTasks {
     private queue: TimedRetryQueueStorage = {}
     private start: number = -1
     private end: number = -1
@@ -56,4 +56,4 @@ class TimedRetryQueueTasks implements ITimedRetryQueueTasks {
 
 }
 
-export default TimedRetryQueueTasks
+export default Queue

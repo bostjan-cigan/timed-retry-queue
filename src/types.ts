@@ -10,7 +10,8 @@ export type TimedRetryQueueTask = {
 
 export type TimedRetryQueueTaskParameters = {
 	retries?: number,
-	interval?: String
+	interval?: String,
+	extra?: TimedRetryQueueExtraParameters
 }
 
 export enum TaskStatus {
@@ -22,11 +23,15 @@ export interface ITimedRetryQueueTasks {
 	add( task: TimedRetryQueueTask ): void,
 	addMany( tasks: Array<TimedRetryQueueTask> ): void
 	isEmpty(): boolean
-	getNext(): TimedRetryQueueTask | undefined
+	getNextTask(): TimedRetryQueueTask | undefined
 	empty(): void,
 	size(): number
 }
 
 export interface TimedRetryQueueStorage {
-	[key: number]: TimedRetryQueueTask
+	[ key: number ]: TimedRetryQueueTask
+}
+
+export interface TimedRetryQueueExtraParameters {
+	[ key: string ]: any
 }

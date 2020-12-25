@@ -40,12 +40,12 @@ describe( 'TimedRetryQueue getting', () => {
                 return true
             }
         } )
-        queue.getNext()
+        queue.getNextTask()
         expect( queue.size() ).toEqual( 0 )
     } )
 	it( 'Process next when empty', () => {
         const queue = new TimedRetryQueueTasks()
-        const next = queue.getNext()
+        const next = queue.getNextTask()
         expect( next ).toBe( undefined )
         expect( queue.size() ).toEqual( 0 )
     } )
@@ -61,7 +61,7 @@ describe( 'TimedRetryQueue delete test', () => {
             }
         } )
         queue.empty()
-        const next = queue.getNext()
+        const next = queue.getNextTask()
         expect( next ).toBe( undefined )
         expect( queue.size() ).toEqual( 0 )
     } )

@@ -22,13 +22,13 @@ class TimedRetryQueue {
 		let runExecutionLoop: boolean = true
 
 		while( runExecutionLoop ) {
-			const task: TimedRetryQueueTask | undefined = queue.getNext()
+			const task: TimedRetryQueueTask | undefined = queue.getNextTask()
 			if ( task ) {
 				let tries = this.default_retries
 				if ( task.parameters?.retries ) {
 					tries = task.parameters.retries
 				}
-				const result = await this.executeTask( task, tries )
+				const result = await this.executeTask( task, tries, true )
 				processResults.push( result )		
 			} else {
 				runExecutionLoop = false
@@ -61,14 +61,14 @@ class TimedRetryQueue {
 	/**
 	 * Tries to execute task within a timeout limit.
 	 *
-	 * @param task	  Task that will be executed.
-	 * @param timeout Limited number of times of execution (fails).
+	 * @param task	  			  Task that will be executed.
+	 * @param firstExecution	  Boolean if task is executed for the first time.
 	 */
-	private async executeTry( task: TimedRetryQueueTask ): Promise<any> {
+	private async executeTry( task: TimedRetryQueueTask, firstExecution: boolean ): Promise<any> {
 		const args = task.args || []
 		let interval: number = 0
-
-		if ( task.parameters?.interval ) {
+	
+		if ( task.parameters?.interval && ! firstExecution ) {
 			interval = timestring( task.parameters.interval, 'ms' )
 		}
 
@@ -90,9 +90,9 @@ class TimedRetryQueue {
 	 * @param task	Task that will be executed.
 	 * @param limit Limited number of times of execution (fails).
 	 */
-	private async executeTask( task: TimedRetryQueueTask, limit: number ): Promise<void> {
+	private async executeTask( task: TimedRetryQueueTask, limit: number, first: boolean = false ): Promise<void> {
 		if ( limit > 0 ) {
-			const result = await this.executeTry( task ).catch( e => e )
+			const result = await this.executeTry( task, first ).catch( e => e )
 			if ( result == TaskStatus.FAIL ) {
 				return await this.executeTask( task, limit - 1 )
 			}

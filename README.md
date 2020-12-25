@@ -5,9 +5,13 @@
 
 [![npm version](https://badge.fury.io/js/%40kijuub%2Ftimed-retry-queue.svg)](https://badge.fury.io/js/%40kijuub%2Ftimed-retry-queue) 
 ![Coverage](badges/coverage.svg)
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-This is an easy utility for processing tasks in a sequential order with a number of retries (time based) before failing or returning the result.
+This is an easy utility for processing tasks in a sequential order with a number of retries (time based) before failing or returning the result. The default queue implementation is FIFO based.
+
+You can also use the following extension(s) to change how the queue elements behave or write your own queue implementation.
+
+* [Timed Retry Dependency Queue](https://npmjs.com/@kijuub/timed-retry-dependency-queue) - A dependency queue implementation where tasks are executed in the order of their specified dependencies
 
 ## Getting started
 
@@ -25,7 +29,7 @@ By default the queue tasks are processed in FIFO order.
 First you need to create the `TimedRetryQueue` object. There are some optional parameters that you can override while creating the constructor:
 
 ```javascript
-import { TimedRetryQueue } from @kijuub/timed-retry-queue
+import { TimedRetryQueue } from '@kijuub/timed-retry-queue'
 
 const options: TimedRetryQueueOptions = {
     default_retries: 8
@@ -40,7 +44,7 @@ The parameter `default_retries` overrides the default number of retries for a fa
 To add tasks to the process method, you need to create the `TimedRetryQueueTasks` object. You can add both retry tasks or tasks that do not need to be retried.
 
 ```javascript
-import { TimedRetryQueue, TimedRetryQueueTasks } from @kijuub/timed-retry-queue
+import { TimedRetryQueue, TimedRetryQueueTasks } from '@kijuub/timed-retry-queue'
 
 const executer = new TimedRetryQueue()
 

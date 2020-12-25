@@ -1,5 +1,5 @@
 import { TimedRetryQueueTask, ITimedRetryQueueTasks } from './index';
-declare class TimedRetryQueueTasks implements ITimedRetryQueueTasks {
+declare class Queue implements ITimedRetryQueueTasks {
     private queue;
     private start;
     private end;
@@ -13,4 +13,4 @@ declare class TimedRetryQueueTasks implements ITimedRetryQueueTasks {
     private enqueue;
     private dequeue;
 }
-export default TimedRetryQueueTasks;
+export default Queue;

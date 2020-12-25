@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1608855944474" clover="3.2.0">
-  <project timestamp="1608855944474" name="All files">
+<coverage generated="1608911510826" clover="3.2.0">
+  <project timestamp="1608911510826" name="All files">
     <metrics statements="80" coveredstatements="80" conditionals="37" coveredconditionals="37" methods="22" coveredmethods="22" elements="139" coveredelements="139" complexity="0" loc="80" ncloc="80" packages="1" files="4" classes="4"/>
     <file name="index.ts" path="/Users/bostjan/Projects/TimedQueue/src/index.ts">
       <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>

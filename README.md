@@ -226,7 +226,7 @@ When the task gets completed this function will be called. The passed in argumen
 const task = {
 	task: () => true,
 	parameters: {
-		onTaskStart: ( result: any, results: Array<any> ) => {
+		onTaskComplete: ( result: any, results: Array<any> ) => {
 			// The result variable contains the result of the current task
 			// The results variable contains the current results of the tasks that were already executed
 		}

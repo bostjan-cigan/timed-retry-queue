@@ -1,4 +1,9 @@
 export declare type TimedRetryQueueOptions = {
+    defaultRetries?: number;
+    passCurrentResults?: boolean;
+    /**
+     * @deprecated Use defaultRetries instead.
+     */
     default_retries?: number;
 };
 export declare type TimedRetryQueueTask = {
@@ -9,6 +14,12 @@ export declare type TimedRetryQueueTask = {
 export declare type TimedRetryQueueTaskParameters = {
     retries?: number;
     interval?: String;
+    passCurrentResults?: boolean;
+    passResultFromPrevious?: boolean;
+    onTryStart?: Function;
+    onTryComplete?: Function;
+    onTaskStart?: Function;
+    onTaskComplete?: Function;
     extra?: TimedRetryQueueExtraParameters;
 };
 export declare enum TaskStatus {

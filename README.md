@@ -36,12 +36,15 @@ First you need to create the `TimedRetryQueue` object. There are some optional p
 import { TimedRetryQueue } from '@kijuub/timed-retry-queue'
 
 const options: TimedRetryQueueOptions = {
-    default_retries: 8
+    defaultRetries: 8,
+    passCurrentResults: true
 } 
 const executer = new TimedRetryQueue( options )
 ```
 
-The parameter `default_retries` overrides the default number of retries for a failed task that does not have the retries options specified. By default this is set to 1.
+The parameter `defaultRetries` overrides the default number of retries for a failed task that does not have the retries options specified. By default this is set to 1.
+
+The parameter `passCurrentResults` is `false` by default. With this the current queue results get passed to the next function that needs to be executed (following the arguments).
 
 ### Adding tasks
 
@@ -94,14 +97,142 @@ When adding a task the following options are supported:
 	"args": <array>,
 	"parameters": {
 		"retries": <number>,
-		"interval": <string>
+		"interval": <string>,
+		"passCurrentResults": <boolean>,
+		"passResultFromPrevious": <boolean>,
+		"onTryStart": <function>,
+		"onTryComplete": <function>,
+		"onTaskStart": <function>,
+		"onTaskComplete": <function>,
+		"extra": <object>
 	}
 }
 ```
 
 The `task` parameter is the function that needs to be executed, the `arguments` parameters are the arguments that are used for the function call.
 
-The `parameters` object allows you to define how many `retries` to do before failing, the `interval` sets how much time between retries. This options supports timestring based values (e.g. 1s, 2 seconds, 2m etc.).
+The `parameters` object allows you to define task options. All parameters are optional.
+
+#### Regular options
+
+> retries
+
+Number of retries that are done if task fails.
+
+> interval
+
+What is the interval between retries (specified using timestring e.g. 1s, 1 minute, 1m etc.).
+
+> passCurrentResults
+
+When calling tasks, if this is set to `true` then the last argument passed to your function call will be the current queue results.
+
+```javascript
+// ...
+const task = {
+	task: ( arg1, results ) => {
+		// The arg1 will contains "foo"
+		// resultFromPrevious contains the result of the previous task
+	},
+	parameters: {
+		passCurrentResults: true,
+		args: [ "foo" ]
+	}
+}
+```
+
+**NOTE:** If you use both options `passCurrentResults` and `passResultFromPrevious` the result from the previous function is returned first and then the results of the whole queue.
+
+> passResultFromPrevious
+
+When calling the current task, if this is set to `true` then the last argument passed to your function call will be the previous task result.
+
+```javascript
+// ...
+const task = {
+	task: ( arg1, resultFromPrevious ) => {
+		// The arg1 will contains "foo"
+		// resultFromPrevious contains the result of the previous task
+	},
+	parameters: {
+		passResultFromPrevious: true,
+		args: [ "foo" ]
+	}
+}
+```
+
+**NOTE:** If you use both options `passCurrentResults` and `passResultFromPrevious` the result from the previous function is returned first and then the results of the whole queue.
+
+> extra
+
+An object that is a custom key value store (the key is string based). This is mainly used for custom queue implementations.
+
+#### Task API
+
+> onTryStart
+
+Before the try of a task starts this function will be called.
+
+```javascript
+// ...
+const task = {
+	task: () => true,
+	parameters: {
+		onTryStart: () => {
+			// Execute your logic here
+		}
+	}
+}
+```
+
+> onTryComplete
+
+When a try of a task is complete this function gets called.
+
+```javascript
+// ...
+const task = {
+	task: () => true,
+	parameters: {
+		onTryComplete: () => {
+			// Execute your logic here
+		}
+	}
+}
+```
+
+> onTaskStart
+
+A callback function that gets triggered before task gets started, it passes in the current queue results.
+
+```javascript
+// ...
+const task = {
+	task: () => true,
+	parameters: {
+		onTaskStart: ( results: Array<any> ) => {
+			// The results variable contains the current results of the tasks that were already executed
+		}
+	}
+}
+```
+
+> onTaskComplete
+
+When the task gets completed this function will be called. The passed in arguments are the result of the task and the current queue results.
+
+```javascript
+// ...
+const task = {
+	task: () => true,
+	parameters: {
+		onTaskStart: ( result: any, results: Array<any> ) => {
+			// The result variable contains the result of the current task
+			// The results variable contains the current results of the tasks that were already executed
+		}
+	}
+}
+```
 
 **NOTE:** The task is deemed failed if an error is thrown.
 

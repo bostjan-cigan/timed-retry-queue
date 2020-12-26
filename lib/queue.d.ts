@@ -1,6 +1,7 @@
 import { TimedRetryQueueOptions, ITimedRetryQueueTasks } from './types';
 declare class TimedRetryQueue {
-    private default_retries;
+    private defaultRetries;
+    private passCurrentResults;
     constructor(options?: TimedRetryQueueOptions);
     /**
      * Process queue.
@@ -10,6 +11,13 @@ declare class TimedRetryQueue {
      * Fetch options of TimedQueue.
      */
     getOptions(): TimedRetryQueueOptions;
+    /**
+     * Get task arguments.
+     *
+     * @param task				Task to be executed.
+     * @param processResults 	Current queue results.
+     */
+    private getTaskArguments;
     /**
      * Parse options that are passed in.
      *
@@ -21,13 +29,16 @@ declare class TimedRetryQueue {
      *
      * @param task	  			  Task that will be executed.
      * @param firstExecution	  Boolean if task is executed for the first time.
+     * @param taskArgs	  		  The task arguments.
      */
     private executeTry;
     /**
      * Executes task retryer.
      *
-     * @param task	Task that will be executed.
-     * @param limit Limited number of times of execution (fails).
+     * @param task			 Task that will be executed.
+     * @param limit 		 Limited number of times of execution (fails).
+     * @param taskArgs 		 Current task arguments.
+     * @param first			 Is it the first execution (used for setTimeout).
      */
     private executeTask;
 }

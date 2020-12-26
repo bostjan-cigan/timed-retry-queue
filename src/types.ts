@@ -1,4 +1,9 @@
 export type TimedRetryQueueOptions = {
+	defaultRetries?: number,
+	passCurrentResults?: boolean,
+	/**
+	 * @deprecated Use defaultRetries instead.
+	 */
 	default_retries?: number
 }
 
@@ -11,6 +16,12 @@ export type TimedRetryQueueTask = {
 export type TimedRetryQueueTaskParameters = {
 	retries?: number,
 	interval?: String,
+	passCurrentResults?: boolean,
+	passResultFromPrevious?: boolean,
+	onTryStart?: Function,
+	onTryComplete?: Function,
+	onTaskStart?: Function,
+	onTaskComplete?: Function,
 	extra?: TimedRetryQueueExtraParameters
 }
 

@@ -39,6 +39,29 @@ describe( 'Task execution test', () => {
 
 		expect( result ).toBe( undefined )
 	} )
+	it( 'Infinite retries', async() => {
+		const queue = new TimedRetryQueueTasks()
+		const task: TimedRetryQueueTask = {
+			task: jest.fn( ( arg1, arg2, arg3 ) => undefined ),
+			args: [ "foo", "bar", "foobar" ],
+			parameters: {
+				retries: -1,
+				interval: "1s"
+			}
+		}
+		queue.add( task )
+
+		const executer = new TimedRetryQueue()
+		const process = await executer.process( queue )
+
+		expect( task.task ).toBeCalledTimes( 1 )
+		expect( task.task ).toBeCalledWith( "foo", "bar", "foobar" )
+		
+		expect( process.length ).toBe( 1 )
+		const result = process[ 0 ]
+
+		expect( result ).toBe( undefined )
+	} )
 	it( 'Order of execution', async () => {
 		const queue = new TimedRetryQueueTasks()
 		queue.addMany(
@@ -122,6 +145,7 @@ describe( 'API test', () => {
 	} )
 	it( 'onTryComplete()', async() => {
 		const queue = new TimedRetryQueueTasks()
+
 		const task: TimedRetryQueueTask = {
 			task: jest.fn( _ => { throw Error } ),
 			args: [ "foo", "bar", "foobar" ],
@@ -131,12 +155,27 @@ describe( 'API test', () => {
 				onTryComplete: jest.fn( _ => undefined )
 			}
 		}
+
+		const taskTwo: TimedRetryQueueTask = {
+			task: jest.fn( _ => true ),
+			args: [ "foo", "bar", "foobar" ],
+			parameters: {
+				retries: 3,
+				interval: "1s",
+				onTryComplete: jest.fn( _ => undefined )
+			}
+		}
 		queue.add( task )
+		queue.add( taskTwo )
 
 		const executer = new TimedRetryQueue()
 		const process = await executer.process( queue )
 
-		expect( task.parameters?.onTryComplete ).toBeCalledTimes( 3 )        
+		expect( task.parameters?.onTryComplete ).toBeCalledTimes( 3 )
+		expect( task.parameters?.onTryComplete ).toBeCalledWith( false )      
+
+		expect( taskTwo.parameters?.onTryComplete ).toBeCalledTimes( 1 )
+		expect( taskTwo.parameters?.onTryComplete ).toBeCalledWith( true )      
 	} )
 } )
 

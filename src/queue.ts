@@ -27,7 +27,11 @@ class TimedRetryQueue {
 			if ( task ) {
 				let tries = this.defaultRetries
 				if ( task.parameters?.retries ) {
-					tries = task.parameters.retries
+					if ( task.parameters.retries === -1 ) {
+						tries = Number.MAX_SAFE_INTEGER
+					} else {
+						tries = task.parameters.retries
+					}
 				}
 
 				if ( task.parameters?.onTaskStart ) {
@@ -35,7 +39,7 @@ class TimedRetryQueue {
 				}
 				const taskArgs = this.getTaskArguments( task, processResults )
 				const result = await this.executeTask( task, tries, taskArgs, true )
-				processResults.push( result )		
+				processResults.push( result )	
 				if ( task.parameters?.onTaskComplete ) {
 					await task.parameters.onTaskComplete.call( this, result, [ ...processResults ] )
 				}
@@ -140,7 +144,8 @@ class TimedRetryQueue {
 			}
 			const result = await this.executeTry( task, first, taskArgs ).catch( e => e )
 			if ( task.parameters?.onTryComplete ) {
-				task.parameters.onTryComplete.call( this )
+				const taskSuccess = result === TaskStatus.FAIL ? false : true
+				task.parameters.onTryComplete.call( this, taskSuccess )
 			}
 			if ( result == TaskStatus.FAIL ) {
 				return await this.executeTask( task, limit - 1, taskArgs )

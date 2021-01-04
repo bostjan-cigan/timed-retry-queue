@@ -117,7 +117,7 @@ The `parameters` object allows you to define task options. All parameters are op
 
 > retries
 
-Number of retries that are done if task fails.
+Number of retries that are done if task fails. If you pass in `-1` then the task will execute infinitely until the first successfull attempt.
 
 > interval
 
@@ -187,14 +187,14 @@ const task = {
 
 > onTryComplete
 
-When a try of a task is complete this function gets called.
+When a try of a task is complete this function gets called and it returns a success variable which is `true` if the task was successfull and `false` if it failed.
 
 ```javascript
 // ...
 const task = {
 	task: () => true,
 	parameters: {
-		onTryComplete: () => {
+		onTryComplete: ( success ) => {
 			// Execute your logic here
 		}
 	}

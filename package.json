@@ -1,6 +1,6 @@
 {
     "name": "@kijuub/timed-retry-queue",
-    "version": "1.2.0",
+    "version": "1.2.1",
     "description": "A retry timed task queue where the next task gets executed when the previous one is completed or fails a limited number of times. It can also be used as a regular queue without retries and offers custom queue logic implementations.",
     "main": "lib/index.js",
     "types": "lib/index.d.ts",
